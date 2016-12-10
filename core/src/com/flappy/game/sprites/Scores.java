@@ -26,7 +26,7 @@ public class Scores {
 public  String getScoreString () {
     return String.valueOf(score);
 }
-    String s;
+    String s = "";
 
 
 
