@@ -23,12 +23,9 @@ public class Scores {
     private  Integer score;
 
 
-public  String getScoreString () {
-    return String.valueOf(score);
-}
-    String s = "";
-
-
+    public  String getScoreString () {
+          return String.valueOf(score);
+    }
 
     public Scores() {
         score = 0;
