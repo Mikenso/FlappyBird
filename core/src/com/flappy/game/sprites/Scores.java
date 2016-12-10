@@ -44,12 +44,6 @@ public  String getScoreString () {
         return score;
     }
 
-
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public int getHighScore() {
         return prefs.getInteger("topScore");
 
