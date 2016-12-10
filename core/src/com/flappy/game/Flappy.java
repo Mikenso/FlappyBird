@@ -15,7 +15,7 @@ public class Flappy extends ApplicationAdapter {
 	public static final int HEIGHT = 800;
 	public static final String TITLE = "Flappy Bird";
 	private GameStateManger gsm;
-	private SpriteBatch batch;
+	public  SpriteBatch batch;
 	Texture img;
 
 	private Music music;
@@ -48,4 +48,6 @@ public class Flappy extends ApplicationAdapter {
 		img.dispose();
 		music.dispose();
 	}
+
+
 }

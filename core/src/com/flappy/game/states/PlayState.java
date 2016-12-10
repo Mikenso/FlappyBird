@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.flappy.game.Flappy;
 import com.flappy.game.sprites.Bird;
@@ -29,7 +30,7 @@ public class PlayState extends State {
 
     private Scores score;
 
-    private  int startScore;
+
 
 
     private Array<Tube> tubes;
@@ -45,16 +46,18 @@ public class PlayState extends State {
         cam.setToOrtho(false, Flappy.WIDTH /2, Flappy.HEIGHT /2 );
         bg = new Texture("bg3.png");
         ground= new Texture("ground.png");
-        score = new Scores();
+
+
 
         groundPosition1 = new Vector2(cam.position.x - cam.viewportWidth / 2, GROUND_Y_OFFSET);
         groundPosition2 = new Vector2((cam.position.x - cam.viewportWidth/2) +ground.getWidth(),GROUND_Y_OFFSET);
 
         tubes = new Array<Tube>();
-        startScore = 0;
+
 
         for (int i = 1; i < TUBE_COUNT ; i++) {
      tubes.add(new Tube(i * (TUBE_SPACING + Tube.TUBE_WIDTH)));
+            score = new Scores();
         }
     }
 
@@ -80,11 +83,11 @@ public class PlayState extends State {
 
              if(cam.position.x - (cam.viewportWidth / 2) > tube.getPosTopTube().x + tube.getTopTube().getWidth()) {
                      tube.reposition(tube.getPosTopTube().x + ((Tube.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
-                 startScore +=1;
+                score.incScore();
                  }
 
              if (tube.collides(bird.getBounds()))   {
-                if (startScore > score.getHighScore()) score.setHighScore(startScore);
+                if (score.recordNew()) score.setHighScore();
                  gsm.set(new PlayState(gsm));
                   }
 
@@ -92,7 +95,7 @@ public class PlayState extends State {
 
         }
         if (bird.getPosition().y < ground.getHeight() + GROUND_Y_OFFSET ) {
-            if (startScore > score.getHighScore())  score.setHighScore(startScore);
+            if ( score.recordNew())  score.setHighScore();
             gsm.set(new PlayState(gsm));
         }
 
@@ -113,7 +116,10 @@ public class PlayState extends State {
         }
         sb.draw(ground, groundPosition1.x, groundPosition1.y);
         sb.draw(ground, groundPosition2.x, groundPosition2.y);
-        font.draw(sb, String.valueOf(startScore), bird.getPosition().x, 352);
+
+        font.draw(sb, score.getScoreString(), bird.getPosition().x, 352 );
+
+
         sb.end();
     }
 
